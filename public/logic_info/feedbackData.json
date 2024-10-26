@@ -1,0 +1,44 @@
+[
+  {
+    "position": "Software Engineer",
+    "company": "Contrario",
+    "name": "Jane Doe",
+    "interviewId": "12345",
+    "jobDescription": "Responsible for building web applications",
+    "scores": {
+      "accuracy": 4,
+      "problemSolving": 3,
+      "communication": 5,
+      "confidence": 4,
+      "eloquence": 3,
+      "wording": 4
+    },
+    "strengths": ["Quick learner", "Great communicator"],
+    "weaknesses": ["Needs improvement in algorithms"],
+    "technical_qs": [
+      "Explain the concept of closures in JavaScript",
+      "What is a REST API?"
+    ]
+  },
+  {
+    "position": "Data Scientist",
+    "company": "DataCorp",
+    "name": "John Smith",
+    "interviewId": "67890",
+    "jobDescription": "Analyze large datasets to provide insights",
+    "scores": {
+      "accuracy": 3,
+      "problemSolving": 4,
+      "communication": 5,
+      "confidence": 3,
+      "eloquence": 4,
+      "wording": 2
+    },
+    "strengths": ["Analytical thinking", "Data visualization"],
+    "weaknesses": ["Presentation skills"],
+    "technical_qs": [
+      "Describe the process of data cleaning",
+      "Explain a decision tree algorithm"
+    ]
+  }
+]

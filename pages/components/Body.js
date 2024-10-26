@@ -3,40 +3,50 @@ import React, { useState } from "react";
 
 const Body = () => {
   const [step, setStep] = useState(1);
-  const [resumeUploaded, setResumeUploaded] = useState(false);
-  const [resumeTextEntered, setResumeTextEntered] = useState(false);
-  const [jobDescriptionUploaded, setJobDescriptionUploaded] = useState(false);
-  const [jobDescriptionTextEntered, setJobDescriptionTextEntered] =
-    useState(false);
+  const [resumeText, setResumeText] = useState("");
+  const [jobDescriptionText, setJobDescriptionText] = useState("");
 
-  const handleNext = () => {
-    setStep(step + 1);
-  };
+  const handleNext = () => setStep(step + 1);
+  const handleBack = () => setStep(step - 1);
 
-  const handleBack = () => {
-    if (step > 1) {
-      setStep(step - 1);
+  const handleResumeFileUpload = async (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("type", "resume");
+
+      await fetch("/api/uploadResume", {
+        method: "POST",
+        body: formData,
+      });
     }
   };
 
-  const handleResumeFileUpload = (event) => {
-    if (event.target.files.length > 0) {
-      setResumeUploaded(true);
+  const handleJobDescriptionFileUpload = async (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("type", "jobDescription");
+
+      await fetch("/api/uploadResume", {
+        method: "POST",
+        body: formData,
+      });
     }
   };
 
-  const handleJobDescriptionFileUpload = (event) => {
-    if (event.target.files.length > 0) {
-      setJobDescriptionUploaded(true);
-    }
-  };
+  const handleResumeTextChange = (event) => setResumeText(event.target.value);
+  const handleJobDescriptionTextChange = (event) =>
+    setJobDescriptionText(event.target.value);
 
-  const handleResumeTextChange = (event) => {
-    setResumeTextEntered(event.target.value.trim() !== "");
-  };
-
-  const handleJobDescriptionTextChange = (event) => {
-    setJobDescriptionTextEntered(event.target.value.trim() !== "");
+  const handleSubmit = async () => {
+    await fetch("/api/uploadResume", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ resumeText, jobDescriptionText }),
+    });
   };
 
   return (
@@ -49,7 +59,6 @@ const Body = () => {
         alignItems: "center",
       }}
     >
-      {/* Labels */}
       <div
         style={{
           width: "100%",
@@ -62,8 +71,6 @@ const Body = () => {
         <div style={labelStyle}>Step 2: Upload Job Description</div>
         <div style={labelStyle}>Step 3: Start Screening!</div>
       </div>
-
-      {/* Cards */}
       <div
         style={{
           width: "100%",
@@ -73,19 +80,19 @@ const Body = () => {
         }}
       >
         <UploadResumeCard
-          faded={step > 1} // Fade when moving to the next step
-          editable={step === 1} // Editable only when step is 1
+          faded={step > 1}
+          editable={step === 1}
           onFileUpload={handleResumeFileUpload}
           onTextChange={handleResumeTextChange}
-          showNextButton={resumeUploaded || resumeTextEntered}
+          showNextButton={!!resumeText}
           onNext={handleNext}
         />
         <UploadJobDescriptionCard
-          faded={step !== 2} // Visible only when step is 2
-          editable={step === 2} // Editable only when step is 2
+          faded={step !== 2}
+          editable={step === 2}
           onFileUpload={handleJobDescriptionFileUpload}
           onTextChange={handleJobDescriptionTextChange}
-          showNextButton={jobDescriptionUploaded || jobDescriptionTextEntered}
+          showNextButton={!!jobDescriptionText}
           onNext={handleNext}
           onBack={handleBack}
         />
@@ -93,6 +100,7 @@ const Body = () => {
           faded={step !== 3}
           editable={step === 3}
           onBack={handleBack}
+          onSubmit={handleSubmit}
         />
       </div>
     </div>
@@ -124,14 +132,14 @@ const UploadResumeCard = ({
       accept=".pdf, .jpeg, .jpg"
       onChange={onFileUpload}
       style={{ margin: "10px 0", width: "100%" }}
-      disabled={!editable} // Disable when not editable
+      disabled={!editable}
     />
     <p style={{ margin: "10px 0", color: "#aaa" }}>Or paste your resume:</p>
     <textarea
       placeholder="Paste resume text here..."
       onChange={onTextChange}
       style={textareaStyle}
-      disabled={!editable} // Disable when not editable
+      disabled={!editable}
     />
     <div
       style={{
@@ -165,7 +173,7 @@ const UploadJobDescriptionCard = ({
       accept=".pdf, .jpeg, .jpg"
       onChange={onFileUpload}
       style={{ margin: "10px 0", width: "100%" }}
-      disabled={!editable} // Disable when not editable
+      disabled={!editable}
     />
     <p style={{ margin: "10px 0", color: "#aaa" }}>
       Or paste your job description:
@@ -174,7 +182,7 @@ const UploadJobDescriptionCard = ({
       placeholder="Paste job description here..."
       onChange={onTextChange}
       style={textareaStyle}
-      disabled={!editable} // Disable when not editable
+      disabled={!editable}
     />
     <div
       style={{
@@ -197,7 +205,7 @@ const UploadJobDescriptionCard = ({
   </div>
 );
 
-const StartScreeningCard = ({ faded, editable, onBack }) => (
+const StartScreeningCard = ({ faded, editable, onBack, onSubmit }) => (
   <div style={{ ...cardContainerStyle(faded) }}>
     <p>
       Start screening now! Your talent assessment will include technical and
@@ -215,7 +223,11 @@ const StartScreeningCard = ({ faded, editable, onBack }) => (
           Back
         </button>
       )}
-      {editable && <button style={nextButtonStyle}>I'm Ready!</button>}
+      {editable && (
+        <button onClick={onSubmit} style={nextButtonStyle}>
+          I'm Ready!
+        </button>
+      )}
     </div>
   </div>
 );
@@ -227,7 +239,7 @@ const cardContainerStyle = (faded) => ({
   borderRadius: "8px",
   padding: "15px",
   color: "white",
-  opacity: faded ? 0.5 : 1, // Fade based on the faded prop
+  opacity: faded ? 0.5 : 1,
   boxShadow: "0 4px 8px rgba(0, 0, 0, 0.3)",
   transition: "opacity 0.5s ease",
 });

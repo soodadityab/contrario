@@ -15,6 +15,31 @@ import {
 import { CheckCircle, Cancel, Download, ArrowRight } from "@mui/icons-material";
 import Image from "next/image";
 
+// Feedback data array
+const feedbackData = [
+  {
+    position: "Software Engineer",
+    company: "Contrario",
+    name: "Jane Doe",
+    uniqueID: "72385",
+    jobDescription: "Responsible for building web applications",
+    scores: {
+      accuracy: 4,
+      problemSolving: 3,
+      communication: 5,
+      confidence: 4,
+      eloquence: 3,
+      wording: 4,
+    },
+    strengths: ["Quick learner", "Great communicator"],
+    weaknesses: ["Needs improvement in algorithms"],
+    technical_qs: [
+      "Explain the concept of closures in JavaScript",
+      "What is a REST API?",
+    ],
+  },
+];
+
 // Dynamic score color function
 const getScoreColor = (score, maxScore) => {
   const ratio = score / maxScore;
@@ -53,12 +78,7 @@ const HorizontalScoreItem = ({ label, value }) => (
   </Box>
 );
 
-const ScorecardPage = ({ feedback = {} }) => {
-  // Fallback for scores to avoid undefined errors
-  const scores = feedback.scores || {};
-
-  // Check if feedback.scores exists to calculate the overall score
-  const overallScore = feedback.scores ? calculateOverallScore(scores) : null;
+const ScorecardPage = () => {
   const isSmallScreen = useMediaQuery("(max-width:600px)");
 
   return (
@@ -73,7 +93,6 @@ const ScorecardPage = ({ feedback = {} }) => {
         position: "relative",
       }}
     >
-      {/* Header */}
       <Typography
         variant="h1"
         sx={{
@@ -86,7 +105,6 @@ const ScorecardPage = ({ feedback = {} }) => {
         Talent Assessment Scorecard
       </Typography>
 
-      {/* Logo on the top right */}
       <Box sx={{ position: "absolute", top: "20px", right: "20px" }}>
         <Image
           src="/contrarionobg.png"
@@ -96,159 +114,159 @@ const ScorecardPage = ({ feedback = {} }) => {
         />
       </Box>
 
-      {/* Display error message if scores are missing */}
-      {!feedback.scores ? (
-        <Typography color="error" variant="h6">
-          Scores data not available.
-        </Typography>
-      ) : (
-        <Box display="flex" justifyContent="center">
-          <Card
-            variant="outlined"
-            sx={{
-              display: "flex",
-              flexDirection: isSmallScreen ? "column" : "row",
-              padding: 4,
-              width: isSmallScreen ? "100%" : "80%",
-            }}
-          >
-            {/* Left Section: Candidate Information */}
-            <Box flex={1} padding={2}>
-              <Typography variant="h5" color="success.main" gutterBottom>
-                {feedback.position} at {feedback.company}
-              </Typography>
-              <Typography variant="body1">
-                <strong>Candidate:</strong> {feedback.name}
-              </Typography>
-              <Typography variant="body1">
-                <strong>Interview ID:</strong> {feedback.interviewId}
-              </Typography>
-              <Typography variant="body1">
-                <strong>Job Description:</strong> {feedback.jobDescription}
-              </Typography>
-              <Divider sx={{ my: 2 }} />
-              <Box display="flex" alignItems="center" flexDirection="column">
-                <Typography variant="body1" fontWeight="bold">
-                  Overall Score
-                </Typography>
-                <CircularProgress
-                  variant="determinate"
-                  value={(overallScore / 5) * 100}
-                  color={getProgressColor(overallScore)}
-                  size={60}
-                  thickness={5}
-                  sx={{ marginY: 1 }}
-                />
-                <Typography variant="body1" fontWeight="bold">
-                  {overallScore}/5
-                </Typography>
-              </Box>
-            </Box>
+      {feedbackData.map((feedback, index) => {
+        const scores = feedback.scores || {};
+        const overallScore = calculateOverallScore(scores);
 
-            {/* Middle Section: Evaluations */}
-            <Box flex={1} padding={2}>
-              <Typography variant="h6" color="textPrimary" gutterBottom>
-                Technical Evaluation
-              </Typography>
-              {["accuracy", "problemSolving", "communication"].map(
-                (scoreKey) => (
+        return (
+          <Box display="flex" justifyContent="center" key={index} my={4}>
+            <Card
+              variant="outlined"
+              sx={{
+                display: "flex",
+                flexDirection: isSmallScreen ? "column" : "row",
+                padding: 4,
+                width: isSmallScreen ? "100%" : "80%",
+              }}
+            >
+              {/* Left Section: Candidate Information */}
+              <Box flex={1} padding={2}>
+                <Typography variant="h5" color="success.main" gutterBottom>
+                  {feedback.position} at {feedback.company}
+                </Typography>
+                <Typography variant="body1">
+                  <strong>Candidate:</strong> {feedback.name}
+                </Typography>
+                <Typography variant="body1">
+                  <strong>Unique ID:</strong> {feedback.uniqueID}
+                </Typography>
+                <Typography variant="body1">
+                  <strong>Job Description:</strong> {feedback.jobDescription}
+                </Typography>
+                <Divider sx={{ my: 2 }} />
+                <Box display="flex" alignItems="center" flexDirection="column">
+                  <Typography variant="body1" fontWeight="bold">
+                    Overall Score
+                  </Typography>
+                  <CircularProgress
+                    variant="determinate"
+                    value={(overallScore / 5) * 100}
+                    color={getProgressColor(overallScore)}
+                    size={60}
+                    thickness={5}
+                    sx={{ marginY: 1 }}
+                  />
+                  <Typography variant="body1" fontWeight="bold">
+                    {overallScore}/5
+                  </Typography>
+                </Box>
+              </Box>
+
+              {/* Middle Section: Evaluations */}
+              <Box flex={1} padding={2}>
+                <Typography variant="h6" color="textPrimary" gutterBottom>
+                  Technical Evaluation
+                </Typography>
+                {["accuracy", "problemSolving", "communication"].map(
+                  (scoreKey) => (
+                    <HorizontalScoreItem
+                      key={scoreKey}
+                      label={
+                        scoreKey === "problemSolving"
+                          ? "Clean Code"
+                          : scoreKey.charAt(0).toUpperCase() + scoreKey.slice(1)
+                      }
+                      value={scores[scoreKey]}
+                    />
+                  )
+                )}
+                <Divider sx={{ my: 2 }} />
+                <Typography variant="h6" color="textPrimary" gutterBottom>
+                  Behavioral Evaluation
+                </Typography>
+                {["confidence", "eloquence", "wording"].map((scoreKey) => (
                   <HorizontalScoreItem
                     key={scoreKey}
-                    label={
-                      scoreKey === "problemSolving"
-                        ? "Clean Code"
-                        : scoreKey.charAt(0).toUpperCase() + scoreKey.slice(1)
-                    }
+                    label={scoreKey.charAt(0).toUpperCase() + scoreKey.slice(1)}
                     value={scores[scoreKey]}
                   />
-                )
-              )}
-              <Divider sx={{ my: 2 }} />
-              <Typography variant="h6" color="textPrimary" gutterBottom>
-                Behavioral Evaluation
-              </Typography>
-              {["confidence", "eloquence", "wording"].map((scoreKey) => (
-                <HorizontalScoreItem
-                  key={scoreKey}
-                  label={scoreKey.charAt(0).toUpperCase() + scoreKey.slice(1)}
-                  value={scores[scoreKey]}
-                />
-              ))}
-            </Box>
+                ))}
+              </Box>
 
-            {/* Right Section: Summary */}
-            <Box flex={1} padding={2}>
-              <Typography variant="h6" color="textPrimary" gutterBottom>
-                Summary
-              </Typography>
-              <Box display="flex" gap={2}>
-                <Box>
-                  <Typography
-                    variant="subtitle1"
-                    color="success.main"
-                    fontWeight="bold"
-                  >
-                    Strengths
-                  </Typography>
-                  <List dense>
-                    {feedback.strengths.map((item, index) => (
-                      <ListItem key={index}>
-                        <ListItemIcon>
-                          <CheckCircle color="success" fontSize="small" />
-                        </ListItemIcon>
-                        <ListItemText primary={item} />
-                      </ListItem>
-                    ))}
-                  </List>
+              {/* Right Section: Summary */}
+              <Box flex={1} padding={2}>
+                <Typography variant="h6" color="textPrimary" gutterBottom>
+                  Summary
+                </Typography>
+                <Box display="flex" gap={2}>
+                  <Box>
+                    <Typography
+                      variant="subtitle1"
+                      color="success.main"
+                      fontWeight="bold"
+                    >
+                      Strengths
+                    </Typography>
+                    <List dense>
+                      {feedback.strengths.map((item, index) => (
+                        <ListItem key={index}>
+                          <ListItemIcon>
+                            <CheckCircle color="success" fontSize="small" />
+                          </ListItemIcon>
+                          <ListItemText primary={item} />
+                        </ListItem>
+                      ))}
+                    </List>
+                  </Box>
+                  <Box>
+                    <Typography
+                      variant="subtitle1"
+                      color="error.main"
+                      fontWeight="bold"
+                    >
+                      Weaknesses
+                    </Typography>
+                    <List dense>
+                      {feedback.weaknesses.map((item, index) => (
+                        <ListItem key={index}>
+                          <ListItemIcon>
+                            <Cancel color="error" fontSize="small" />
+                          </ListItemIcon>
+                          <ListItemText primary={item} />
+                        </ListItem>
+                      ))}
+                    </List>
+                  </Box>
                 </Box>
-                <Box>
-                  <Typography
-                    variant="subtitle1"
-                    color="error.main"
-                    fontWeight="bold"
-                  >
-                    Weaknesses
-                  </Typography>
-                  <List dense>
-                    {feedback.weaknesses.map((item, index) => (
-                      <ListItem key={index}>
-                        <ListItemIcon>
-                          <Cancel color="error" fontSize="small" />
-                        </ListItemIcon>
-                        <ListItemText primary={item} />
-                      </ListItem>
-                    ))}
-                  </List>
+                <Divider sx={{ my: 2 }} />
+                <Box display="flex" gap={3} alignItems="center">
+                  <Box display="flex" alignItems="center" gap={1}>
+                    <Typography variant="body1" fontWeight="bold">
+                      Transcript
+                    </Typography>
+                    <Download />
+                  </Box>
+                  <Box display="flex" flexDirection="column" gap={1}>
+                    <Typography variant="body1" fontWeight="bold">
+                      Technical Questions
+                    </Typography>
+                    <List dense>
+                      {feedback.technical_qs.map((item, index) => (
+                        <ListItem key={index}>
+                          <ListItemIcon>
+                            <ArrowRight fontSize="small" />
+                          </ListItemIcon>
+                          <ListItemText primary={item} />
+                        </ListItem>
+                      ))}
+                    </List>
+                  </Box>
                 </Box>
               </Box>
-              <Divider sx={{ my: 2 }} />
-              <Box display="flex" gap={3} alignItems="center">
-                <Box display="flex" alignItems="center" gap={1}>
-                  <Typography variant="body1" fontWeight="bold">
-                    Transcript
-                  </Typography>
-                  <Download />
-                </Box>
-                <Box display="flex" flexDirection="column" gap={1}>
-                  <Typography variant="body1" fontWeight="bold">
-                    Technical Questions
-                  </Typography>
-                  <List dense>
-                    {feedback.technical_qs.map((item, index) => (
-                      <ListItem key={index}>
-                        <ListItemIcon>
-                          <ArrowRight fontSize="small" />
-                        </ListItemIcon>
-                        <ListItemText primary={item} />
-                      </ListItem>
-                    ))}
-                  </List>
-                </Box>
-              </Box>
-            </Box>
-          </Card>
-        </Box>
-      )}
+            </Card>
+          </Box>
+        );
+      })}
     </Box>
   );
 };

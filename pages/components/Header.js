@@ -33,7 +33,7 @@ const Header = () => {
           {/* Logo */}
           <div style={{ width: "400px" }}>
             <Image
-              src="/contrario.png"
+              src="/contrarionobg.png"
               alt="Contrario Logo"
               width={400}
               height={200}

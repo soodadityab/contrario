@@ -12,7 +12,7 @@ export const config = {
   },
 };
 
-const uploadDir = path.join(process.cwd(), "/uploads");
+const uploadDir = path.join(process.cwd(), "/uploadAudio");
 
 export default async function handler(req, res) {
   if (req.method !== "POST") {

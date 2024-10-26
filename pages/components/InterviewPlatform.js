@@ -73,7 +73,7 @@ const InterviewPlatform = () => {
     formData.append("audio", audioBlob, "recording.webm");
 
     try {
-      const response = await fetch("/api/upload", {
+      const response = await fetch("/api/uploadAudio", {
         method: "POST",
         body: formData,
       });
