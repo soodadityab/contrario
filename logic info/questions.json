@@ -1,0 +1,77 @@
+{
+  "behavioral questions": [
+    {
+      "question": "Tell me about a time when you had to learn a new technology or framework quickly for a project. How did you approach learning {{technology}} for {{project or role}}?"
+    },
+    {
+      "question": "Describe a challenging bug or technical issue you encountered while working on {{project or role}}. How did you go about identifying and resolving it?"
+    },
+    {
+      "question": "In {{project or role}}, was there a time when you received constructive feedback on your work? How did you handle it, and what changes did you make as a result?"
+    },
+    {
+      "question": "Can you provide an example of a time when you had to work with another team member or a cross-functional team in {{project or role}}? How did you ensure successful collaboration?"
+    },
+    {
+      "question": "Tell me about a time when you had to prioritize multiple tasks or projects simultaneously. How did you manage your time effectively while working on {{tasks or project}}?"
+    },
+    {
+      "question": "Describe a time when you disagreed with a decision made on your team in {{project or role}}. How did you handle the disagreement, and what was the outcome?"
+    },
+    {
+      "question": "Was there ever a time when you were under significant pressure to meet a deadline in {{project or role}}? How did you handle the pressure, and what was the result?"
+    },
+    {
+      "question": "Explain a time during {{project or role}} when you had to quickly adapt to a major change in the project requirements or scope. How did you handle the change?"
+    },
+    {
+      "question": "Think of a time when you faced an unexpected technical or personal challenge while working on {{project or role}}. How did you address the issue?"
+    },
+    {
+      "question": "Describe a time in {{project or role}} when you had to take the initiative to solve a problem that wasn’t necessarily part of your assigned tasks. What steps did you take, and what was the impact of your actions?"
+    }
+  ],
+
+  "technical questions": [
+    {
+      "preamble": "At {{company}}, the team frequently encounters issues with data inconsistencies, and they rely on Python to process data effectively. You need to write a function to check if a given string is a palindrome. Implement a function `is_palindrome(s)` that returns `True` if the input string `s` is a palindrome and `False` otherwise.",
+      "question": "Write a function `is_palindrome(s)` that checks if a string is a palindrome. A palindrome is a word that reads the same backward as forward."
+    },
+    {
+      "preamble": "{{company}} works with massive amounts of data. A common task for junior engineers is to filter and clean datasets. Given a list of integers, implement a function `remove_duplicates(lst)` that returns a list with duplicate elements removed while preserving the order of the first occurrence.",
+      "question": "Write a function `remove_duplicates(lst)` to remove duplicate values from a list, preserving the order of first occurrences."
+    },
+    {
+      "preamble": "The engineering team at {{company}} needs help processing logs to detect errors. Given a log entry as a string, you need to count how many times each word appears. Implement `count_words(log_entry)` to return a dictionary where the keys are words, and values are the counts of occurrences.",
+      "question": "Write a function `count_words(log_entry)` to count the occurrences of each word in a given log entry string."
+    },
+    {
+      "preamble": "As part of the quality assurance process at {{company}}, they need to ensure that their applications handle edge cases properly. Write a function `find_max(nums)` that takes a list of integers `nums` and returns the maximum value in the list.",
+      "question": "Implement `find_max(nums)` that finds and returns the maximum value in a list of integers."
+    },
+    {
+      "preamble": "{{company}} is scaling, and handling large volumes of requests is critical. For an incoming stream of numbers, you need to track the average value efficiently. Write a function `running_average(new_number)` that takes a new number and returns the updated running average.",
+      "question": "Create a function `running_average(new_number)` that maintains a running average of a series of numbers."
+    },
+    {
+      "preamble": "At {{company}}, handling CSV data is a key part of the role. Implement a function `parse_csv_row(row_str)` that takes a string representing a single CSV row and returns a list of values, handling cases with empty fields.",
+      "question": "Write a function `parse_csv_row(row_str)` that parses a single row of CSV format into a list of values, handling empty fields correctly."
+    },
+    {
+      "preamble": "Debugging and understanding logs are crucial at {{company}}. Write a function `extract_emails(text)` that takes a string of text and extracts all email addresses. Return the email addresses in a list.",
+      "question": "Implement `extract_emails(text)` to return all email addresses found in a given string as a list."
+    },
+    {
+      "preamble": "{{company}} is working with external APIs that send large JSON data files. Your task is to filter JSON data. Write a function `extract_values(json_obj, key)` that takes a JSON object and a key, returning all values associated with that key in a list.",
+      "question": "Create `extract_values(json_obj, key)` to retrieve all values for a given key in a JSON object."
+    },
+    {
+      "preamble": "Handling date and time data is essential at {{company}} for tracking user activity. Implement a function `days_between(date1, date2)` that takes two date strings in the format 'YYYY-MM-DD' and returns the number of days between them.",
+      "question": "Write `days_between(date1, date2)` that calculates the number of days between two dates given in 'YYYY-MM-DD' format."
+    },
+    {
+      "preamble": "The team at {{company}} often needs to work with data structures to organize and retrieve information efficiently. Implement a function `find_duplicates(lst)` that takes a list and returns all duplicate values in the list.",
+      "question": "Create a function `find_duplicates(lst)` that finds and returns all duplicate values from a list."
+    }
+  ]
+}

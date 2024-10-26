@@ -21,3 +21,5 @@ export default function MyApp({ Component, pageProps }) {
     </ThemeProvider>
   );
 }
+
+export default App;
