@@ -2,7 +2,6 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import Body from "./Body";
-import Scorecard from "./Scorecard";
 
 const Header = () => {
   const [showScorecard, setShowScorecard] = useState(false);
@@ -60,8 +59,8 @@ const Header = () => {
             <p
               style={{
                 fontFamily: "Roboto, sans-serif",
-                fontSize: "18px",
-                lineHeight: "1.6",
+                fontSize: "16px",
+                lineHeight: "1.4",
               }}
             >
               Welcome to <strong>Contrario AI</strong>'s first-ever{" "}

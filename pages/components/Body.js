@@ -1,7 +1,9 @@
 // Body.js
 import React, { useState } from "react";
+import { useRouter } from "next/router";
 
 const Body = () => {
+  const router = useRouter();
   const [step, setStep] = useState(1);
   const [resumeText, setResumeText] = useState("");
   const [jobDescriptionText, setJobDescriptionText] = useState("");
@@ -47,6 +49,9 @@ const Body = () => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ resumeText, jobDescriptionText }),
     });
+
+    // Navigate to InterviewPlatform after the fetch completes
+    router.push("/InterviewPlatform");
   };
 
   return (
@@ -64,7 +69,7 @@ const Body = () => {
           width: "100%",
           display: "flex",
           justifyContent: "space-around",
-          marginBottom: "20px",
+          marginBottom: "10px",
         }}
       >
         <div style={labelStyle}>Step 1: Upload Your Resume</div>
@@ -167,7 +172,7 @@ const UploadJobDescriptionCard = ({
   onBack,
 }) => (
   <div style={{ ...cardContainerStyle(faded) }}>
-    <label>Upload Your Job Description (PDF or JPEG):</label>
+    <label>Upload Your Job Desc. (PDF or JPEG):</label>
     <input
       type="file"
       accept=".pdf, .jpeg, .jpg"

@@ -1,20 +1,15 @@
 // pages/index.js
-
 import React from "react";
-import dynamic from "next/dynamic";
-import { Box } from "@mui/material";
-
-// Dynamically import the InterviewPlatform component with SSR disabled
-const InterviewPlatform = dynamic(
-  () => import("./components/InterviewPlatform"),
-  { ssr: false }
-);
+import Header from "./components/Header";
+import Body from "./components/Body";
+import Footer from "./components/Footer";
 
 const HomePage = () => {
   return (
-    <Box>
-      <InterviewPlatform />
-    </Box>
+    <>
+      <Header />
+      <Footer />
+    </>
   );
 };
 
